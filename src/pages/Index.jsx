@@ -611,7 +611,7 @@ const projects = [
     link: "https://github.com/AsadUllah-313/Zora.git",
   },
   {
-    name: "The Oven Pizza",
+    name: "Pizza-Shop",
     image: projectimg5,
     purpose:
       "A modern animated one paged website for a Pizza Shop.",
