@@ -1,7 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, React } from "react";
 import { Navbar } from "../components/Navbar";
 import { useTheme } from "../hooks/useTheme";
 import { Typewriter } from "react-simple-typewriter";
+import '@google/model-viewer';
+
+
+
 
 import serviceImg1 from "../assets/OIP-removebg-preview (1).png";
 import serviceImg2 from "../assets/react.png";
@@ -29,6 +33,7 @@ import projectimg1 from "../assets/ss1.png";
 import projectimg2 from "../assets/ss2.png";
 import projectimg3 from "../assets/ss3.png";
 import projectimg4 from "../assets/ss4.png";
+import projectimg5 from "../assets/pizzashop.png";
 
 // Custom hook for scroll-triggered animations
 const useInView = (threshold = 0.1) => {
@@ -126,7 +131,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section
+     <section
       id="home"
       className="min-h-screen relative overflow-hidden flex items-center justify-center px-6 py-20"
     >
@@ -252,6 +257,10 @@ export const Hero = () => {
         </div>
       </div>
     </section>
+
+
+
+
   );
 };
 
@@ -291,7 +300,10 @@ const About = () => {
             <strong className="text-slate-900 dark:text-white">
               AsadUllah
             </strong>
-            , a Front-End Developer specializing in React JS and Tailwind CSS, focused on building modern, responsive, and scalable web interfaces. I believe great user experience comes from clean design, clear structure, and code that performs smoothly on every device.
+            , a Front-End Developer specializing in React JS and Tailwind CSS,
+            focused on building modern, responsive, and scalable web interfaces.
+            I believe great user experience comes from clean design, clear
+            structure, and code that performs smoothly on every device.
           </p>
           <p>
             My focus is on helping startups and businesses grow by creating web
@@ -307,6 +319,9 @@ const About = () => {
         </div>
       </div>
     </section>
+
+
+    
   );
 };
 
@@ -596,6 +611,15 @@ const projects = [
     link: "https://github.com/AsadUllah-313/Zora.git",
   },
   {
+    name: "The Oven Pizza",
+    image: projectimg5,
+    purpose:
+      "A modern animated one paged website for a Pizza Shop.",
+    stack: ["React JS", "Tailwind CSS","Framer motion"],
+    highlight: "Responsive animated single paged website with clean UI",
+    link: "https://the-pizzza-demo.vercel.app/",
+  },
+  {
     name: "Ecommerce Dashboard",
     image: projectimg2,
     purpose:
@@ -610,7 +634,8 @@ const projects = [
     purpose:
       "A professional landing page designed for hospitals and clinics to showcase services and capture patient inquiries.",
     stack: ["HTML", "CSS", "JavaScript"],
-    highlight: "Fast-loading, SEO-friendly, fully reponsive design with book appointment and send message functionality",
+    highlight:
+      "Fast-loading, SEO-friendly, fully reponsive design with book appointment and send message functionality",
     link: "https://hospital-home-page-liart.vercel.app/",
   },
   {
@@ -619,7 +644,8 @@ const projects = [
     purpose:
       "A sleek and scalable e-commerce frontend built with React and fully responsive design.",
     stack: ["React JS"],
-    highlight: "Reusable components, responsive layouts, and fully responsive design",
+    highlight:
+      "Reusable components, responsive layouts, and fully responsive design",
     link: "https://github.com/AsadUllah-313/Mobile-responsive-ecom-frontend.git",
   },
 ];
@@ -649,18 +675,17 @@ const ProjectCard = ({ project, index, isInView }) => {
         />
 
         {/* Overlay with project name */}
-       <div className="absolute inset-0 flex items-center justify-center">
-  <div
-    className={`w-3/4 h-3/4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 flex items-center justify-center transition-transform duration-500 ${
-      hovered ? "scale-95 shadow-lg" : "scale-100"
-    }`}
-  >
-    <span className="text-white text-3xl md:text-4xl font-display font-bold drop-shadow-lg">
-      {project.name.split(" ")[0]}
-    </span>
-  </div>
-</div>
-
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className={`w-3/4 h-3/4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 flex items-center justify-center transition-transform duration-500 ${
+              hovered ? "scale-95 shadow-lg" : "scale-100"
+            }`}
+          >
+            <span className="text-white text-3xl md:text-4xl font-display font-bold drop-shadow-lg">
+              {project.name.split(" ")[0]}
+            </span>
+          </div>
+        </div>
 
         {/* Hover overlay with button */}
         <div
@@ -705,7 +730,7 @@ const ProjectCard = ({ project, index, isInView }) => {
           ))}
         </div>
         <p className="text-sm text-slate-500 dark:text-slate-400 italic">
-           {project.highlight}
+          {project.highlight}
         </p>
       </div>
     </div>
@@ -824,11 +849,11 @@ const WhyChooseMe = () => {
               style={{ transitionDelay: isInView ? `${index * 100}ms` : "0ms" }}
             >
               {/* <span className="text-4xl mb-4 block transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12"> */}
-                <img
-                  src={reason.image}
-                  alt={reason.title}
-                  className="aspect-square w-16 h-16 mb-6 block transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 object-contain"
-                />
+              <img
+                src={reason.image}
+                alt={reason.title}
+                className="aspect-square w-16 h-16 mb-6 block transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 object-contain"
+              />
               {/* </span> */}
               <h3 className="font-display text-lg font-bold text-slate-900 dark:text-white mb-2">
                 {reason.title}
@@ -892,7 +917,8 @@ const CTA = () => {
           <a
             ref={secondaryBtn.buttonRef}
             href="https://mail.google.com/mail/?view=cm&fs=1&to=engrasadqurashi@gmail.com&su=Project%20Inquiry&body=Hello%20Asad,%20I%20would%20like%20to%20discuss..."
-            target="_blank" rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
             onMouseMove={secondaryBtn.handleMouseMove}
             onMouseLeave={secondaryBtn.handleMouseLeave}
             className="px-8 py-4 border-2 border-slate-600 text-white font-semibold rounded-full hover:border-slate-500 hover:bg-slate-800 transition-all duration-300"
