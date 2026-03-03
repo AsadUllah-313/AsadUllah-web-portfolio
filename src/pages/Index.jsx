@@ -34,6 +34,7 @@ import projectimg2 from "../assets/ss2.png";
 import projectimg3 from "../assets/ss3.png";
 import projectimg4 from "../assets/ss4.png";
 import projectimg5 from "../assets/pizzashop.png";
+import projectimg6 from "../assets/gym.png";
 
 // Custom hook for scroll-triggered animations
 const useInView = (threshold = 0.1) => {
@@ -618,6 +619,15 @@ const projects = [
     stack: ["React JS", "Tailwind CSS","Framer motion"],
     highlight: "Responsive animated single paged website with clean UI",
     link: "https://the-pizzza-demo.vercel.app/",
+  },
+  {
+    name: "Gym Cinematic Website",
+    image: projectimg6,
+    purpose:
+      "Psychological, cinematic gym branding demo focused on emotional storytelling and conversion.",
+    stack: ["React JS", "Tailwind CSS","Framer motion"],
+    highlight: "Responsive animated single paged website with clean UI",
+    link: "https://gym-website-six-zeta.vercel.app/",
   },
   {
     name: "Ecommerce Dashboard",
