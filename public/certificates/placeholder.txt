@@ -1,0 +1,5 @@
+Place your certificate PDF and image files inside this directory.
+File names should match those declared in: src/data/certificates.js
+- For cert-1: cert-1.jpg and cert-1.pdf
+- For cert-2: cert-2.jpg and cert-2.pdf
+- For cert-3: cert-3.jpg and cert-3.pdf

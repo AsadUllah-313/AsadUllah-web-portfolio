@@ -1,166 +1,185 @@
-/* Premium Typography - Outfit for display, Plus Jakarta Sans for body */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+/* ═══════════════════════════════════════════════════════════════════
+   index.css — Global Styles & Design System
+   
+   This file defines:
+   - CSS custom properties (design tokens) for both light & dark modes
+   - Base resets and typography
+   - Scroll progress bar, custom scrollbar, utility classes
+   - prefers-reduced-motion overrides
+   ═══════════════════════════════════════════════════════════════════ */
 
-/* Tailwind directives */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Root theme variables */
+/* ─── Design Tokens ─────────────────────────────────────────────── */
+/* Light mode (default) */
 :root {
-  --radius: 0.625rem;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-
-  /* Custom font families */
-  --font-display: 'Outfit', system-ui, sans-serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --bg: #faf9f6;                /* main background — warm paper white          */
+  --bg-subtle: #edeae2;         /* noticeably distinct secondary bg             */
+  --fg: #1a1a1a;                /* primary text — near-black                   */
+  --fg-muted: #575451;          /* muted text — darker for WCAG AA              */
+  --accent: #c6f135;            /* electric lime — for backgrounds/borders/glows*/
+  --accent-text: #4a6800;       /* dark lime for readable text on light bg      */
+                                /* (WCAG contrast ~6.5:1 on --bg)               */
+  --accent-fg: #1a1a1a;         /* text on accent-colored backgrounds           */
+  --border: #d8d5cc;            /* slightly more visible borders                */
+  --card: #ffffff;              /* pure white cards — distinct from bg          */
+  --card-hover: #f7f6f2;        /* card hover state                             */
+  --navbar-bg: rgba(250, 249, 246, 0.92); /* glass navbar bg               */
+  --hero-glow: rgba(255, 150, 50, 0.10); /* warm amber blob in light hero   */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.07);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.09);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 4px 14px rgba(0,0,0,0.04);
+  --btn-gradient: linear-gradient(135deg, #c6f135 0%, #a8cc1e 100%);
 }
 
-/* Dark mode variables */
+/* Dark mode — toggled by adding 'dark' class to <html> */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(50.713% 0.18608 27.038);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --bg: #0a0a0b;                /* near-black background                       */
+  --bg-subtle: #111113;         /* slightly lighter for alternating secs        */
+  --fg: #f5f5f0;                /* off-white primary text                      */
+  --fg-muted: #888886;          /* muted text                                  */
+  --accent: #c6f135;            /* lime — same in both modes                   */
+  --accent-text: #c6f135;       /* same as accent in dark (lime on dark is fine)*/
+  --accent-fg: #0a0a0b;         /* text on accent bg in dark mode              */
+  --border: #2a2a2d;            /* dark mode border                            */
+  --card: #141416;              /* dark card surface                           */
+  --card-hover: #1c1c1f;        /* dark card hover                             */
+  --navbar-bg: rgba(10, 10, 11, 0.88); /* dark glass navbar                 */
+  --hero-glow: rgba(198, 241, 53, 0.04); /* faint lime blob in dark hero    */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.2), 0 4px 14px rgba(0,0,0,0.15);
+  --btn-gradient: linear-gradient(135deg, #c6f135 0%, #a8cc1e 100%);
 }
 
-/* Base layer */
-@layer base {
- /* Base layer */
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
+/* ─── Base Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
-  html {
-    scroll-behavior: smooth;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
 
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-sans);
-  }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  /* Smooth theme transition — applies when toggling dark/light */
+  transition: background-color 0.35s ease, color 0.35s ease;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  ::selection {
-    @apply bg-cyan-200 text-slate-900;
+/* ─── Section Scroll Offset ──────────────────────────────────────── */
+/* Prevents section headings from hiding behind the sticky navbar    */
+/* when nav links are clicked. Adjust if navbar height changes.      */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* ─── Typography ─────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--fg);
+}
+
+/* ─── Scroll Progress Bar ────────────────────────────────────────── */
+/* Rendered as a fixed element at the top of the viewport.           */
+/* Width is controlled via JS (useScrollProgress hook).              */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  z-index: 9999;
+  pointer-events: none;
+  transition: width 0.08s linear;
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fg-muted);
+}
+
+/* ─── Focus Ring ─────────────────────────────────────────────────── */
+/* Accessible focus indicator using accent color */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ─── Selection Color ────────────────────────────────────────────── */
+::selection {
+  background: var(--accent);
+  color: var(--accent-fg);
+}
+
+/* ─── Noise Texture Overlay ──────────────────────────────────────── */
+/* Apply class="noise" to a container for a subtle grain effect       */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* ─── Utility: Theme Transition Override ─────────────────────────── */
+/* Prevents ALL transitions firing on initial theme load             */
+.no-transition, .no-transition * {
+  transition: none !important;
+}
+
+/* ─── prefers-reduced-motion ─────────────────────────────────────── */
+/* Disables all animations for users who prefer reduced motion.      */
+/* Framer Motion also reads this via useReducedMotion() hook.        */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-sans);
-  }
-
-  ::selection {
-    @apply bg-cyan-200 text-slate-900;
-  }
+/* ─── Page Entrance Animation ───────────────────────────────────── */
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-/* Utilities */
-@layer utilities {
-  .font-display {
-    font-family: var(--font-display);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
-
-  .font-sans {
-    font-family: var(--font-sans);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Custom keyframes */
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
-
-@keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(6, 182, 212, 0.5); }
-}
-
-/* Dark mode selection */
-.dark ::selection {
-  @apply bg-cyan-700 text-white;
-}

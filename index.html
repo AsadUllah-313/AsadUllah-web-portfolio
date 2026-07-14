@@ -2,26 +2,77 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>AsadUllah | Front-End Developer | React JS & Tailwind CSS Specialist</title>
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- THEME FLASH FIX                                         -->
+    <!-- Runs before React loads, reads saved theme from         -->
+    <!-- localStorage and applies 'dark' class instantly —       -->
+    <!-- prevents white flash on page load in dark mode.         -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem("theme");
+          var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+          if (saved === "dark" || (!saved && prefersDark)) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
 
+    <!-- ═══ Favicon ═══ -->
+    <!-- Replace /favicon.ico with your own icon file -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- ═══ Primary Meta Tags ═══ -->
+    <title>AsadUllah | Frontend Developer — React & Next.js</title>
     <meta
       name="description"
-      content="AsadUllah is a professional Front-End Developer specializing in React JS and Tailwind CSS."
+      content="AsadUllah is a BS Software Engineering student and Frontend Developer specializing in React, Next.js, and Tailwind CSS. Building modern, performant web experiences."
     />
-
     <meta name="robots" content="index, follow" />
+    <meta name="author" content="AsadUllah" />
+    <link rel="canonical" href="https://asadullah.dev/" />
+
+    <!-- ═══ Open Graph / Social Preview ═══ -->
+    <!-- Replace /og-image.png with a real 1200x630 image later -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://asadullah.dev/" />
+    <meta property="og:title" content="AsadUllah | Frontend Developer — React & Next.js" />
+    <meta
+      property="og:description"
+      content="BS Software Engineering student building modern, performant web experiences with React, Next.js, and Tailwind CSS."
+    />
+    <meta property="og:image" content="https://asadullah.dev/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="AsadUllah Portfolio" />
+
+    <!-- ═══ Twitter Card ═══ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AsadUllah | Frontend Developer" />
+    <meta
+      name="twitter:description"
+      content="Building modern web experiences with React, Next.js & Tailwind CSS."
+    />
+    <meta name="twitter:image" content="https://asadullah.dev/og-image.png" />
+
+    <!-- ═══ Google Fonts ═══ -->
+    <!-- Space Grotesk: bold, modern display font for headings  -->
+    <!-- Inter: clean, highly readable body font                -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="canonical"
-      href="https://asadullah.vercel.app/"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
     />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    
   </body>
 </html>
