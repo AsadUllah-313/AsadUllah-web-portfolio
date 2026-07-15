@@ -175,7 +175,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12"
         >
           <Button
-            href="/resume.pdf"
+            href="/certificates/AsadUllah_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             variant="primary"

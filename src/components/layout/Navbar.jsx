@@ -88,7 +88,7 @@ export default function Navbar({ isDark, toggleTheme }) {
 
           {/* Resume CTA — prominent lime button */}
           <a
-            href="/resume.pdf"
+            href="/certificates/AsadUllah_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -177,7 +177,7 @@ export default function Navbar({ isDark, toggleTheme }) {
 
               {/* Mobile resume button */}
               <a
-                href="/resume.pdf"
+                href="/certificates/AsadUllah_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="
