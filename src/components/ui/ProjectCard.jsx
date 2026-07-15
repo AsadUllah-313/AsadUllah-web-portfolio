@@ -108,15 +108,25 @@ export default function ProjectCard({ project, index }) {
             loading="lazy"
             className="w-full h-full object-cover"
             variants={imageVariants}
+            onError={(e) => {
+              e.target.style.display = "none";
+              if (e.target.nextSibling) {
+                e.target.nextSibling.style.display = "flex";
+              }
+            }}
           />
-        ) : (
-          /* Placeholder gradient when no image is provided */
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--bg-subtle)] to-[var(--border)]">
-            <span className="font-display text-4xl font-bold text-[var(--border)] select-none">
-              {project.name.slice(0, 2).toUpperCase()}
-            </span>
-          </div>
-        )}
+        ) : null}
+
+        {/* Placeholder gradient when no image is provided or it fails to load */}
+        <div
+          className="w-full h-full items-center justify-center bg-gradient-to-br from-[var(--bg-subtle)] to-[var(--border)]"
+          style={{ display: project.image ? "none" : "flex" }}
+          aria-hidden="true"
+        >
+          <span className="font-display text-4xl font-bold text-[var(--border)] select-none">
+            {project.name.slice(0, 2).toUpperCase()}
+          </span>
+        </div>
 
         {/* Hover overlay with external links */}
         <motion.div
