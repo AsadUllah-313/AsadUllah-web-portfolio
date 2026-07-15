@@ -119,16 +119,18 @@ export default function Certifications() {
           const modalPdfUrl   = getCleanUrl(selectedCert.pdfFile);
 
           return (
-            <div className="space-y-4">
-              {/* Full certificate image */}
-              <img
-                src={modalImageUrl}
-                alt={`${selectedCert.title} certificate`}
-                className="w-full rounded-lg border border-[var(--border)]"
-                onError={(e) => {
-                  e.target.style.display = "none";
-                }}
-              />
+            <div className="space-y-4 flex flex-col">
+              {/* Full certificate image container with restricted max height */}
+              <div className="w-full bg-[var(--bg-subtle)] rounded-lg border border-[var(--border)] overflow-hidden flex items-center justify-center p-1.5 md:p-3">
+                <img
+                  src={modalImageUrl}
+                  alt={`${selectedCert.title} certificate`}
+                  className="max-h-[42vh] md:max-h-[48vh] w-auto object-contain rounded-md"
+                  onError={(e) => {
+                    e.target.parentElement.style.display = "none";
+                  }}
+                />
+              </div>
 
               {/* Certificate info */}
               <div>

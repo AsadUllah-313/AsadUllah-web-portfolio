@@ -18,7 +18,7 @@ const socials = [
   {
     label: "LinkedIn",
     // TODO: Replace with your actual LinkedIn profile URL
-    href: "https://linkedin.com/in/YOUR-LINKEDIN-SLUG",
+    href: "https://linkedin.com/in/asad-ullah-410938367",
     icon: FaLinkedin,
   },
   {

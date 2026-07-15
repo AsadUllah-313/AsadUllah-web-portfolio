@@ -15,6 +15,25 @@
 export const certificates = [
   {
     id: "cert-1",
+    title: "Meta React Specialization",
+    issuer: "Meta",
+    date: "July 2026",
+    description: "Mastered modern React development by building scalable, high-performance web applications using reusable components, Hooks, Context API, and advanced React patterns.",
+    imageFile: "cr4.png",
+    pdfFile:  "React_specialization.pdf",
+  },
+  {
+    id: "cert-2",
+    title: "Advanced Ract",
+    issuer: "Meta",
+    date: "July 2026",
+    description: "Mastered advanced React concepts including state management, custom hooks, Context API, performance optimization, and scalable component architecture.",
+    imageFile: "cr3.png",
+    pdfFile:  "Advanced_React_certificate.pdf",
+  },
+ 
+  {
+    id: "cert-3",
     title: "Programming with JavaScript",
     issuer: "Meta",
     date: "June 2026",
@@ -24,7 +43,7 @@ export const certificates = [
     pdfFile:   "js_certificate.pdf",   // downloaded when 'Download' is clicked
   },
   {
-    id: "cert-2",
+    id: "cert-4",
     title: "Version Control",
     issuer: "Meta",
     date: "june 2026",
@@ -32,13 +51,4 @@ export const certificates = [
     imageFile: "cr2.png",
     pdfFile:   "versionControl_certificate.pdf",
   },
-  // {
-  //   id: "cert-3",
-  //   title: "YOUR CERTIFICATE TITLE HERE",
-  //   issuer: "Platform Name",
-  //   date: "Month Year",
-  //   description: "Brief description of what this certificate covers.",
-  //   imageFile: "cert-3.jpg",
-  //   pdfFile:   "cert-3.pdf",
-  // },
 ];

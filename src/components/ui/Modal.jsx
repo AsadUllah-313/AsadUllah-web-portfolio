@@ -92,57 +92,64 @@ export default function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 
   return (
-    // ── Backdrop ─────────────────────────────────────────────────
+    // ── Backdrop: full-screen scrollable overlay ─────────────────
+    // Using overflow-y-auto + min-h-full inner wrapper is the correct
+    // Tailwind pattern — modal is perfectly centered when short,
+    // and scrollable (not clipped) when content is tall.
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 overflow-y-auto"
+      style={{ backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(4px)" }}
       onClick={(e) => {
-        // Close when clicking the backdrop (outside the dialog)
         if (e.target === e.currentTarget) onClose();
       }}
-      style={{ backgroundColor: "rgba(0,0,0,0.75)", backdropFilter: "blur(4px)" }}
     >
-      {/* ── Dialog ─────────────────────────────────────────────── */}
-      <div
-        ref={modalRef}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        className="
-          relative w-full max-w-2xl max-h-[90vh] overflow-y-auto
-          bg-[var(--card)] rounded-2xl shadow-2xl
-          border border-[var(--border)]
-          animate-[fadeSlideUp_0.2s_ease-out]
-        "
-      >
-        {/* Close button */}
-        <button
-          onClick={onClose}
-          aria-label="Close modal"
+      {/* Inner centering wrapper — min-h-screen ensures true 100vh centering */}
+      <div className="flex min-h-screen items-center justify-center p-4">
+        {/* ── Dialog ─────────────────────────────────────────── */}
+        <div
+          ref={modalRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
           className="
-            absolute top-4 right-4 z-10
-            w-9 h-9 rounded-full flex items-center justify-center
-            bg-[var(--bg-subtle)] hover:bg-[var(--card-hover)]
-            text-[var(--fg-muted)] hover:text-[var(--fg)]
-            transition-colors duration-150
+            relative w-full max-w-2xl
+            bg-[var(--card)] rounded-2xl shadow-2xl
+            border border-[var(--border)]
+            animate-[fadeSlideUp_0.2s_ease-out]
+            my-4
           "
+          onClick={(e) => e.stopPropagation()}
         >
-          <X size={18} />
-        </button>
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            aria-label="Close modal"
+            className="
+              absolute top-4 right-4 z-10
+              w-9 h-9 rounded-full flex items-center justify-center
+              bg-[var(--bg-subtle)] hover:bg-[var(--card-hover)]
+              text-[var(--fg-muted)] hover:text-[var(--fg)]
+              transition-colors duration-150
+            "
+          >
+            <X size={18} />
+          </button>
 
-        {/* Modal heading (visually hidden if no title, still accessible) */}
-        {title && (
-          <div className="px-6 pt-6 pb-4 border-b border-[var(--border)]">
-            <h3
-              id="modal-title"
-              className="font-display text-xl font-bold text-[var(--fg)] pr-10"
-            >
-              {title}
-            </h3>
-          </div>
-        )}
+          {/* Modal heading */}
+          {title && (
+            <div className="px-6 pt-6 pb-4 border-b border-[var(--border)]">
+              <h3
+                id="modal-title"
+                className="font-display text-xl font-bold text-[var(--fg)] pr-10"
+              >
+                {title}
+              </h3>
+            </div>
+          )}
 
-        {/* Modal body */}
-        <div className="p-6">{children}</div>
+          {/* Modal body */}
+          <div className="p-6">{children}</div>
+        </div>
       </div>
     </div>
   );

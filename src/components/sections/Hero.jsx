@@ -197,7 +197,7 @@ export default function Hero() {
           {[
             { icon: FaGithub, href: "https://github.com/AsadUllah-313", label: "GitHub" },
             // TODO: Replace with your real LinkedIn URL
-            { icon: FaLinkedin, href: "https://linkedin.com/in/YOUR-LINKEDIN-SLUG", label: "LinkedIn" },
+            { icon: FaLinkedin, href: "https://linkedin.com/in/asad-ullah-410938367", label: "LinkedIn" },
             { icon: Mail, href: "mailto:engrasadqurashi@gmail.com", label: "Email" },
           ].map((s) => (
             <motion.a

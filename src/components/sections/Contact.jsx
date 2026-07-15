@@ -132,7 +132,7 @@ export default function Contact() {
 
             {/* LinkedIn */}
             <Button
-              href="https://linkedin.com/in/YOUR-LINKEDIN-SLUG"
+              href="https://linkedin.com/in/asad-ullah-410938367"
               target="_blank"
               rel="noopener noreferrer"
               variant="outline"
