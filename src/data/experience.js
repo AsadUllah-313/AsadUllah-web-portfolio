@@ -1,41 +1,32 @@
-// ═══════════════════════════════════════════════════════════════════
-// src/data/experience.js
-//
-// Edit this file to update your work experience timeline.
-// Each entry appears as a timeline card in the Experience section.
-// ═══════════════════════════════════════════════════════════════════
-
+// Work experience, ordered most recent first.
 export const experience = [
+  {
+    id: "logxpert",
+    role: "Full Stack Developer Intern",
+    company: "LogXpert",
+    companyUrl: null,
+    period: "Aug 2026 – Present",
+    type: "Internship",
+    description: "Developing a farm management system with React.js, Node.js, Express.js, and PostgreSQL, connecting frontend workflows with APIs and backend data operations.",
+    bullets: [
+      "Build animal registration and worker management workflows backed by relational data.",
+      "Implement role-based access control for owners, administrators, veterinarians, managers, and investors.",
+      "Connect per-animal yield, cost, and status tracking to operational dashboards and stakeholder-specific workflows.",
+    ],
+  },
   {
     id: "developershub",
     role: "Frontend Developer Intern",
     company: "DevelopersHub.co",
-    companyUrl: "https://developershub.co", // update with actual URL
-    period: "2024",                          // e.g. "Jun 2024 – Sep 2024"
+    companyUrl: "https://developershub.co",
+    period: "Feb 2025 – Apr 2025",
     type: "Internship",
     location: "Remote",
-    description:
-      "Completed a professional frontend development internship where I built real-world web interfaces and deepened my expertise in modern React development practices.",
-    // 2-3 bullet points showing impact — start with action verbs
+    description: "Developed a React ecommerce frontend while collaborating with a remote team.",
     bullets: [
-      "Built and shipped responsive React components for client-facing web applications, improving UI consistency across the product.",
-      "Collaborated with a cross-functional team to translate Figma designs into pixel-perfect, accessible HTML/CSS/React code.",
-      "Optimized component performance and learned production-grade patterns including code splitting and lazy loading.",
+      "Built a five-page React ecommerce frontend with reusable components and responsive layouts.",
+      "Resolved cross-device layout issues and reduced unnecessary component re-renders.",
+      "Incorporated code reviews and design feedback while collaborating with a remote team.",
     ],
   },
-  // ── Add more experiences below ──────────────────────────────────
-  // {
-  //   id: "next-role",
-  //   role: "Your Role",
-  //   company: "Company Name",
-  //   companyUrl: "https://company.com",
-  //   period: "Month Year – Month Year",
-  //   type: "Full-time | Part-time | Internship | Freelance",
-  //   location: "City / Remote",
-  //   description: "Short overview of the role.",
-  //   bullets: [
-  //     "Impact bullet 1",
-  //     "Impact bullet 2",
-  //   ],
-  // },
 ];

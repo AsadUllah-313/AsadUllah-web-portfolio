@@ -14,22 +14,31 @@
 
 export const certificates = [
   {
+    id: "meta-full-stack",
+    title: "Meta Full Stack Developer Specialization",
+    issuer: "Meta",
+    date: "September 2026",
+    description: "Meta-certified Full Stack Developer specialization covering modern frontend and backend development across React, JavaScript, Python, Django, databases, APIs, and version control, with hands-on development of full-stack web applications.",
+    imageFile: "full-stack.png",
+    pdfFile: "FUll-stack-dev-certificate.pdf",
+  },
+  {
     id: "cert-1",
     title: "Meta React Specialization",
     issuer: "Meta",
     date: "July 2026",
-    description: "Mastered modern React development by building scalable, high-performance web applications using reusable components, Hooks, Context API, and advanced React patterns.",
+    description: "Built React applications using reusable components, Hooks, Context API, and advanced React patterns.",
     imageFile: "cr4.png",
     pdfFile:  "React_specialization.pdf",
   },
   {
     id: "cert-2",
-    title: "Advanced Ract",
+    title: "Advanced React",
     issuer: "Meta",
     date: "July 2026",
-    description: "Mastered advanced React concepts including state management, custom hooks, Context API, performance optimization, and scalable component architecture.",
+    description: "Covered state management, custom hooks, Context API, performance optimization, and component architecture.",
     imageFile: "cr3.png",
-    pdfFile:  "Advanced_React_certificate.pdf",
+    pdfFile:  "Advance_React_certificate.pdf",
   },
  
   {
@@ -46,7 +55,7 @@ export const certificates = [
     id: "cert-4",
     title: "Version Control",
     issuer: "Meta",
-    date: "june 2026",
+    date: "June 2026",
     description: "Learned Git and GitHub for version control, collaborative development, branching, merging, and efficient code management.",
     imageFile: "cr2.png",
     pdfFile:   "versionControl_certificate.pdf",

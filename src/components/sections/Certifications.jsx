@@ -1,101 +1,24 @@
-// ═══════════════════════════════════════════════════════════════════
-// src/components/sections/Certifications.jsx
-//
-// Horizontally scrollable certificate gallery.
-// Each certificate has View (opens modal) and Download buttons.
-// Reads data from: src/data/certificates.js
-// ═══════════════════════════════════════════════════════════════════
-
-import { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import AmbientLayer from "../ui/AmbientLayer";
+import { useState, useCallback } from "react";
 import SectionLabel from "../ui/SectionLabel";
+import MotionStream from "../ui/MotionStream";
 import CertificateCard from "../ui/CertificateCard";
 import Modal from "../ui/Modal";
 import { certificates } from "../../data/certificates";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Certifications() {
-  // ── Modal state ───────────────────────────────────────────────
+
   const [selectedCert, setSelectedCert] = useState(null);
-  const scrollRef = useRef(null);
+  const closeModal = useCallback(() => setSelectedCert(null), []);
 
-  const openModal = (cert) => setSelectedCert(cert);
-  const closeModal = () => setSelectedCert(null);
-
-  // ── Scroll gallery left / right ───────────────────────────────
-  const scroll = (direction) => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const amount = 320; // card width + gap
-    container.scrollBy({ left: direction === "left" ? -amount : amount, behavior: "smooth" });
-  };
-
-  return (
-    <section id="certifications" className="py-24 px-5 bg-[var(--bg)]">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-end justify-between gap-4 mb-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.5 }}
-          >
-            <SectionLabel label="Continuous Learning" heading="Certifications" />
-          </motion.div>
-
-          {/* Scroll arrows (desktop) */}
-          <div className="hidden sm:flex items-center gap-2 mb-14">
-            <button
-              onClick={() => scroll("left")}
-              aria-label="Scroll certificates left"
-              className="
-                w-9 h-9 rounded-full flex items-center justify-center
-                border border-[var(--border)] text-[var(--fg-muted)]
-                hover:border-[var(--accent)] hover:text-[var(--accent)]
-                transition-colors duration-150
-              "
-            >
-              <ChevronLeft size={18} />
-            </button>
-            <button
-              onClick={() => scroll("right")}
-              aria-label="Scroll certificates right"
-              className="
-                w-9 h-9 rounded-full flex items-center justify-center
-                border border-[var(--border)] text-[var(--fg-muted)]
-                hover:border-[var(--accent)] hover:text-[var(--accent)]
-                transition-colors duration-150
-              "
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
-        </div>
-
-        {/* ── Horizontally Scrollable Gallery ────────────────── */}
-        <div
-          ref={scrollRef}
-          className="
-            flex gap-5 overflow-x-auto pb-4
-            snap-x snap-mandatory
-            scrollbar-hide
-          "
-          style={{
-            scrollbarWidth: "none",       /* Firefox */
-            msOverflowStyle: "none",      /* IE/Edge */
-          }}
-        >
-          {certificates.map((cert) => (
-            <CertificateCard key={cert.id} cert={cert} onView={openModal} />
-          ))}
-        </div>
-
-        {/* Hint for mobile users */}
-        <p className="sm:hidden text-center text-xs text-[var(--fg-muted)] mt-3">
-          ← Swipe to see more →
-        </p>
-      </div>
-
+  return <section id="certifications" className="py-24 px-5 bg-[var(--bg)]">
+      <AmbientLayer variant="certifications" />
+    <div className="max-w-6xl mx-auto">
+      <SectionLabel label="Continuous Learning" heading="Certifications" />
+      <MotionStream label="Credential stream" speed={28}>
+        {certificates.map((cert,index) => <CertificateCard key={cert.id} cert={cert} index={index} stream onView={setSelectedCert} />)}
+      </MotionStream>
+    </div>
       {/* ── Certificate Preview Modal ────────────────────────── */}
       <Modal
         isOpen={!!selectedCert}
@@ -121,7 +44,7 @@ export default function Certifications() {
           return (
             <div className="space-y-4 flex flex-col">
               {/* Full certificate image container with restricted max height */}
-              <div className="w-full bg-[var(--bg-subtle)] rounded-lg border border-[var(--border)] overflow-hidden flex items-center justify-center p-1.5 md:p-3">
+              {modalImageUrl && <div className="w-full bg-[var(--bg-subtle)] rounded-lg border border-[var(--border)] overflow-hidden flex items-center justify-center p-1.5 md:p-3">
                 <img
                   src={modalImageUrl}
                   alt={`${selectedCert.title} certificate`}
@@ -130,7 +53,7 @@ export default function Certifications() {
                     e.target.parentElement.style.display = "none";
                   }}
                 />
-              </div>
+              </div>}
 
               {/* Certificate info */}
               <div>
@@ -148,7 +71,7 @@ export default function Certifications() {
               </div>
 
               {/* Download button inside modal */}
-              <a
+              {modalPdfUrl && <a
                 href={modalPdfUrl}
                 download={selectedCert.pdfFile}
                 className="
@@ -159,11 +82,11 @@ export default function Certifications() {
                 "
               >
                 Download Certificate
-              </a>
+              </a>}
             </div>
           );
         })()}
       </Modal>
-    </section>
-  );
+
+  </section>;
 }

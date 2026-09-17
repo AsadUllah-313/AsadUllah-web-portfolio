@@ -106,9 +106,9 @@ Add new objects to the `projects` array:
 ```
 
 ### 🧠 Updating Skills (`src/data/skills.js`)
-Categorize skills into `frontend`, `backend`, or `learning`. Update badge levels (`"Experienced"`, `"Comfortable"`, `"Learning"`):
+Categorize skills into `frontend`, `backend`, `databases`, `ai`, or `engineering`. Badges distinguish applied work from coursework:
 ```javascript
-{ name: "TypeScript", icon: "SiTypescript", level: "Learning" }
+{ name: "Next.js", icon: "SiNextdotjs", level: "Applied" }
 ```
 *Note: Make sure the icon name is added to the `iconMap` in `src/components/sections/Skills.jsx`.*
 

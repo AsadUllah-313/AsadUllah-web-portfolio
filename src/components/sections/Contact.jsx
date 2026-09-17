@@ -1,3 +1,4 @@
+import AmbientLayer from "../ui/AmbientLayer";
 // ═══════════════════════════════════════════════════════════════════
 // src/components/sections/Contact.jsx
 //
@@ -7,9 +8,10 @@
 // ═══════════════════════════════════════════════════════════════════
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import SectionLabel from "../ui/SectionLabel";
 import Button from "../ui/Button";
+import SystemField from "../ui/SystemField";
 import { Mail, Copy, Check, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
@@ -44,27 +46,30 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-5 bg-[var(--bg-subtle)]">
-      <div className="max-w-5xl mx-auto">
-        <motion.div
+    <section id="contact" className="connection-finale py-24 px-5 bg-[var(--bg-subtle)]">
+      <AmbientLayer variant="contact" />
+      <SystemField />
+      <svg className="connection-paths" viewBox="0 0 1000 240" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0 H180 L420 170 H500 M1000 0 H820 L580 170 H500 M250 0 V80 L500 170 M750 0 V80 L500 170 M500 170 V240" /><circle cx="500" cy="170" r="5" /></svg>
+      <div className="relative z-10 max-w-5xl mx-auto">
+        <Motion.div data-motion=""
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5 }}
         >
           <SectionLabel label="Get In Touch" heading="Let's Work Together" center />
-        </motion.div>
+        </Motion.div>
 
-        <motion.div
+        <Motion.div data-motion=""
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-60px" }}
           variants={{ show: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } } }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16"
+          className="connection-content"
         >
           {/* ── Left Column: Message ─────────────────────────── */}
-          <motion.div variants={fadeUp}>
-            <div className="p-6 rounded-xl bg-[var(--card)] border border-[var(--border)]">
+          <Motion.div data-motion="" variants={fadeUp}>
+            <div className="contact-card p-6 rounded-xl bg-[var(--card)] border border-[var(--border)]">
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-sm font-medium text-green-500">
@@ -73,10 +78,10 @@ export default function Contact() {
               </div>
 
               <p className="text-[var(--fg-muted)] leading-relaxed mb-6">
-                I'm currently looking for{" "}
-                <strong className="text-[var(--fg)]">frontend developer roles</strong>{" "}
-                and open to freelance projects. Whether you have a role, a project idea,
-                or just want to connect — I'd love to hear from you.
+                I'm open to{" "}
+                <strong className="text-[var(--fg)]">full-stack software engineering opportunities</strong>{" "}
+                and freelance product development. Let's discuss your web application,
+                AI-powered workflow, or the software your team needs to build.
               </p>
 
               {/* Email with copy button */}
@@ -92,6 +97,7 @@ export default function Contact() {
                 <button
                   onClick={handleCopy}
                   aria-label={copied ? "Email copied" : "Copy email address"}
+                  aria-live="polite"
                   className="
                     flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium
                     bg-[var(--card)] border border-[var(--border)]
@@ -113,10 +119,10 @@ export default function Contact() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </Motion.div>
 
           {/* ── Right Column: CTA Buttons ────────────────────── */}
-          <motion.div variants={fadeUp} className="flex flex-col gap-4 justify-center">
+          <Motion.div data-motion="" variants={fadeUp} className="flex flex-col gap-4 justify-center">
             {/* Email Me — primary CTA */}
             <Button
               href={`mailto:${EMAIL}?subject=Project%20Inquiry&body=Hi%20AsadUllah,%20I'd%20like%20to%20discuss...`}
@@ -159,8 +165,8 @@ export default function Contact() {
               View GitHub Profile
               <ArrowUpRight size={16} />
             </Button>
-          </motion.div>
-        </motion.div>
+          </Motion.div>
+        </Motion.div>
       </div>
     </section>
   );

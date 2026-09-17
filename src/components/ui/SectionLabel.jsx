@@ -12,10 +12,10 @@
 
 export default function SectionLabel({ label, heading, center = false }) {
   return (
-    <div className={`mb-14 ${center ? "text-center" : ""}`}>
+    <div className={`section-heading mb-14 ${center ? "text-center" : ""}`}>
       {/* Eyebrow label */}
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-[var(--accent-text)] mb-3">
-        {label}
+      <p className="section-eyebrow text-sm font-medium uppercase tracking-[0.2em] text-[var(--accent-text)] mb-3">
+        <span className="chapter-number" aria-hidden="true">{({"About Me":"01", "Technical Expertise":"02", "Work Experience":"03", "Recent Work":"04", "Continuous Learning":"05", "Get In Touch":"06"})[label]} / </span>{label}
       </p>
 
       {/* Section heading */}

@@ -18,6 +18,7 @@
 // ═══════════════════════════════════════════════════════════════════
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
 // Selectors for all naturally focusable elements
@@ -43,7 +44,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
 
     // Move focus into the modal
     const firstFocusable = modalRef.current?.querySelectorAll(FOCUSABLE)?.[0];
-    firstFocusable?.focus();
+    firstFocusable?.focus({ preventScroll: true });
 
     // Handle Tab / Shift+Tab + Escape
     const handleKeyDown = (e) => {
@@ -85,13 +86,13 @@ export default function Modal({ isOpen, onClose, title, children }) {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
       // Return focus to the element that opened the modal
-      previouslyFocused.current?.focus();
+      previouslyFocused.current?.focus({ preventScroll: true });
     };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     // ── Backdrop: full-screen scrollable overlay ─────────────────
     // Using overflow-y-auto + min-h-full inner wrapper is the correct
     // Tailwind pattern — modal is perfectly centered when short,
@@ -104,7 +105,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
       }}
     >
       {/* Inner centering wrapper — min-h-screen ensures true 100vh centering */}
-      <div className="flex min-h-screen items-center justify-center p-4">
+      <div className="flex min-h-screen items-center justify-center p-4" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
         {/* ── Dialog ─────────────────────────────────────────── */}
         <div
           ref={modalRef}
@@ -115,7 +116,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
             relative w-full max-w-2xl
             bg-[var(--card)] rounded-2xl shadow-2xl
             border border-[var(--border)]
-            animate-[fadeSlideUp_0.2s_ease-out]
+            modal-enter
             my-4
           "
           onClick={(e) => e.stopPropagation()}
@@ -151,6 +152,6 @@ export default function Modal({ isOpen, onClose, title, children }) {
           <div className="p-6">{children}</div>
         </div>
       </div>
-    </div>
+    </div>, document.body
   );
 }

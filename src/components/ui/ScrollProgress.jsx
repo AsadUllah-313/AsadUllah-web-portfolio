@@ -5,15 +5,15 @@
 // Width grows from 0% to 100% as the user scrolls down the page.
 // ═══════════════════════════════════════════════════════════════════
 
-import { useScrollProgress } from "../../hooks/useScrollProgress";
+import { motion as Motion, useScroll } from "framer-motion";
 
 export default function ScrollProgress() {
-  const progress = useScrollProgress();
+  const { scrollYProgress } = useScroll();
 
   return (
-    <div
+    <Motion.div
       id="scroll-progress"
-      style={{ width: `${progress}%` }}
+      style={{ scaleX: scrollYProgress, transformOrigin: "left", width: "100%" }}
       aria-hidden="true"
     />
   );

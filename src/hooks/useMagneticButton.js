@@ -19,14 +19,14 @@ export function useMagneticButton(strength = 0.25) {
   const onMouseMove = useCallback(
     (e) => {
       const el = ref.current;
-      if (!el) return;
+      if (!el || !window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
 
       const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
       // Apply a subtle translation proportional to cursor offset
-      el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+      el.style.transform = `translate(${Math.max(-4, Math.min(4, x * strength))}px, ${Math.max(-3, Math.min(3, y * strength))}px)`;
       el.style.transition = "transform 0.1s ease-out";
     },
     [strength]
@@ -37,7 +37,7 @@ export function useMagneticButton(strength = 0.25) {
     if (!el) return;
     // Spring back to center smoothly
     el.style.transform = "translate(0, 0)";
-    el.style.transition = "transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+    el.style.transition = "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)";
   }, []);
 
   return { ref, onMouseMove, onMouseLeave };

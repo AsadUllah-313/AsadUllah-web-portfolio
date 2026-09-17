@@ -51,7 +51,7 @@ export default function Button({
   const { ref, onMouseMove, onMouseLeave } = useMagneticButton(0.2);
 
   const base = `
-    inline-flex items-center justify-center gap-2
+    product-button inline-flex items-center justify-center gap-2
     font-display transition-all duration-200
     focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]
     ${variants[variant]} ${sizes[size]} ${className}

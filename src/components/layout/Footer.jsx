@@ -4,7 +4,7 @@
 // Clean, minimal footer with social icons, copyright, and credit.
 // ═══════════════════════════════════════════════════════════════════
 
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
@@ -42,14 +42,14 @@ export default function Footer() {
               <span className="text-[var(--accent)]"> /&gt;</span>
             </p>
             <p className="text-sm text-[var(--fg-muted)]">
-              Frontend Developer • React & Tailwind CSS
+              Full Stack Software Engineer • AI-powered Applications
             </p>
           </div>
 
           {/* ── Social Icons ──────────────────────────────────── */}
           <div className="flex items-center gap-3">
             {socials.map((s) => (
-              <motion.a
+              <Motion.a data-motion=""
                 key={s.label}
                 href={s.href}
                 target={s.href.startsWith("mailto:") ? undefined : "_blank"}
@@ -65,7 +65,7 @@ export default function Footer() {
                 "
               >
                 <s.icon size={17} />
-              </motion.a>
+              </Motion.a>
             ))}
           </div>
         </div>

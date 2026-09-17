@@ -1,219 +1,83 @@
-// ═══════════════════════════════════════════════════════════════════
-// src/components/ui/ProjectCard.jsx
-//
-// Card component for the Projects section.
-// Refined with high-end, responsive animations:
-//   - Subtle scale-up (1.025x) & shadow lift on hover
-//   - Border/glow transition in accent color (rgba(198, 241, 53, 0.4))
-//   - Staggered entrance animation for tech stack tags on hover
-//   - Slow, elegant image zoom (1.06x) triggered on card hover
-//   - Premium "shine sweep" light effect across the card on hover
-// ═══════════════════════════════════════════════════════════════════
-
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
-// ── Motion Variants ─────────────────────────────────────────────
 const cardVariants = {
-  initial: { opacity: 0, y: 40 },
+  initial: { opacity: 0, y: 18 },
   visible: (index) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      delay: index * 0.1,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    opacity: 1, y: 0,
+    transition: { duration: 0.6, delay: (index % 3) * 0.07, ease: [0.22, 1, 0.36, 1] },
   }),
-  hover: {
-    y: -6,
-    scale: 1.025,
-    borderColor: "rgba(198, 241, 53, 0.4)",
-    boxShadow: "0 0 24px rgba(198, 241, 53, 0.12), var(--shadow-lg)",
-    transition: {
-      duration: 0.3,
-      ease: [0.25, 1, 0.5, 1],
-    },
-  },
+  hover: { y: -4, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] } },
 };
-
 const imageVariants = {
   initial: { scale: 1 },
-  hover: {
-    scale: 1.06,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
+  hover: { scale: 1.035, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 };
 
-const tagContainerVariants = {
-  initial: {},
-  hover: {
-    transition: {
-      staggerChildren: 0.04,
-    },
-  },
-};
-
-const tagVariants = {
-  initial: { opacity: 0.5, y: 4 },
-  hover: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.25,
-      ease: "easeOut",
-    },
-  },
-};
-
-export default function ProjectCard({ project, index }) {
+export default function ProjectCard({ project, index, stream = false }) {
   return (
-    <motion.article
+    <Motion.article
+      data-motion=""
+      data-featured={index < 2 || undefined}
       custom={index}
-      initial="initial"
+      initial={stream ? false : "initial"}
       whileInView="visible"
       whileHover="hover"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "0px 0px 40px 0px", amount: 0.12 }}
       variants={cardVariants}
-      className="
-        group relative flex flex-col
-        bg-[var(--card)] rounded-2xl overflow-hidden
-        border border-[var(--border)]
-        transition-colors duration-300
-      "
+      className="project-card group relative flex flex-col bg-[var(--card)] rounded-2xl overflow-hidden border border-[var(--border)] transition-colors duration-300"
     >
-      {/* ── Shine Sweep Effect (Subtle & Premium) ────────────────── */}
-      <div
-        className="
-          absolute inset-0 w-[200%] h-full
-          bg-gradient-to-r from-transparent via-white/10 to-transparent
-          -skew-x-20 -translate-x-[150%]
-          transition-transform duration-1000 ease-out
-          group-hover:translate-x-[100%]
-          pointer-events-none z-20
-        "
-        aria-hidden="true"
-      />
-
-      {/* ── Image / Preview Area ─────────────────────────────────── */}
-      <div className="relative overflow-hidden aspect-video bg-[var(--bg-subtle)] z-10">
-        {project.image ? (
-          <motion.img
+      <div className="relative overflow-hidden aspect-video bg-[var(--bg-subtle)]">
+        <span className="project-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        {project.image && (
+          <Motion.img data-motion=""
             src={project.image}
             alt={`${project.name} screenshot`}
             loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover"
             variants={imageVariants}
-            onError={(e) => {
-              e.target.style.display = "none";
-              if (e.target.nextSibling) {
-                e.target.nextSibling.style.display = "flex";
-              }
+            onError={(event) => {
+              event.target.style.display = "none";
+              event.target.nextSibling.style.display = "flex";
             }}
           />
-        ) : null}
-
-        {/* Placeholder gradient when no image is provided or it fails to load */}
+        )}
         <div
           className="w-full h-full items-center justify-center bg-gradient-to-br from-[var(--bg-subtle)] to-[var(--border)]"
           style={{ display: project.image ? "none" : "flex" }}
           aria-hidden="true"
         >
-          <span className="font-display text-4xl font-bold text-[var(--border)] select-none">
-            {project.name.slice(0, 2).toUpperCase()}
-          </span>
+          <span className="font-display text-4xl font-bold text-[var(--border)] select-none">{project.name.slice(0, 2).toUpperCase()}</span>
         </div>
-
-        {/* Hover overlay with external links */}
-        <motion.div
-          className="
-            absolute inset-0
-            bg-black/65 backdrop-blur-[2px]
-            flex items-end justify-start p-5 gap-3
-            z-20
-          "
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          transition={{ duration: 0.25 }}
-        >
-          {project.githubUrl && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`GitHub repo for ${project.name}`}
-              className="
-                flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                bg-white text-black text-sm font-semibold
-                hover:bg-[var(--accent)] hover:text-[var(--accent-fg)]
-                transition-all duration-150
-              "
-            >
-              <FaGithub size={14} />
-              Code
-            </a>
-          )}
-          {project.liveUrl && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Live demo for ${project.name}`}
-              className="
-                flex items-center gap-1.5 px-3 py-1.5 rounded-lg
-                bg-[var(--accent)] text-[var(--accent-fg)] text-sm font-semibold
-                hover:brightness-110 transition-all duration-150
-              "
-            >
-              <ExternalLink size={14} />
-              Live Demo
-            </a>
-          )}
-        </motion.div>
       </div>
-
-      {/* ── Card Content ─────────────────────────────────────────── */}
-      <div className="p-6 flex flex-col flex-1 z-10">
+      <div className="p-6 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-display text-lg font-bold text-[var(--fg)] group-hover:text-[var(--accent-text)] transition-colors duration-200">
-            {project.name}
-          </h3>
-          {/* External link icon — shown on hover */}
-          <ArrowUpRight
-            size={18}
-            className="text-[var(--fg-muted)] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0 mt-0.5"
-          />
+          <h3 className="font-display text-lg font-bold text-[var(--fg)] group-hover:text-[var(--accent-text)] transition-colors duration-200">{project.name}</h3>
+          <ArrowUpRight size={18} aria-hidden="true" className="text-[var(--fg-muted)] flex-shrink-0 mt-0.5" />
         </div>
-
-        <p className="text-[var(--fg-muted)] text-sm leading-relaxed mb-4 flex-1">
-          {project.description}
-        </p>
-
-        {/* ── Tech Stack Tags (Staggered Animation on hover) ───────── */}
-        <motion.div
-          variants={tagContainerVariants}
-          className="flex flex-wrap gap-1.5"
-        >
-          {project.stack.map((tech) => (
-            <motion.span
-              key={tech}
-              variants={tagVariants}
-              className="
-                px-2.5 py-1 text-xs font-medium rounded-md
-                bg-[var(--bg-subtle)] text-[var(--fg-muted)]
-                border border-[var(--border)]
-                inline-block
-              "
-            >
-              {tech}
-            </motion.span>
+        {stream ? <details className="stream-description"><summary>Project details</summary><p>{project.description}</p></details> : <p className="text-[var(--fg-muted)] text-sm leading-relaxed mb-4 flex-1">{project.description}</p>}
+        <div className="flex flex-wrap gap-1.5">
+          {project.stack.map(tech => (
+            <span key={tech} className="px-2.5 py-1 text-xs font-medium rounded-md bg-[var(--bg-subtle)] text-[var(--fg-muted)] border border-[var(--border)] inline-block">{tech}</span>
           ))}
-        </motion.div>
+        </div>
+        {(project.githubUrl || project.liveUrl) && (
+          <div className="project-actions">
+            {project.githubUrl && (
+              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`GitHub repo for ${project.name}`} className="project-action">
+                <FaGithub size={14} aria-hidden="true" /> Code
+              </a>
+            )}
+            {project.liveUrl && (
+              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={`Live demo for ${project.name}`} className="project-action">
+                <ExternalLink size={14} aria-hidden="true" /> Live Demo
+              </a>
+            )}
+          </div>
+        )}
       </div>
-    </motion.article>
+    </Motion.article>
   );
 }

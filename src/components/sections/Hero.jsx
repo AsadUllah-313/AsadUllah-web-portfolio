@@ -1,82 +1,24 @@
+import AmbientLayer from "../ui/AmbientLayer";
 // ═══════════════════════════════════════════════════════════════════
 // src/components/sections/Hero.jsx
 //
 // Hero section — the first thing a recruiter sees.
-// Features:
-//   - Text scramble "decode" effect on the name (runs once)
-//   - Rotating role text via react-simple-typewriter
-//   - Staggered word-by-word entrance animation (Framer Motion)
-//   - "View Resume" (primary) + "Contact Me" (outline) CTAs
-//   - Social icons row
-//   - Subtle noise texture overlay
-//   - Scroll indicator at bottom
-// ═══════════════════════════════════════════════════════════════════
+// Staged entrance with a restrained architecture field and crossfading roles.
 
-import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
-import { Typewriter } from "react-simple-typewriter";
+import { motion as Motion } from "framer-motion";
+import InteractiveEnvironment from "../ui/InteractiveEnvironment";
+import SystemMap from "../ui/SystemMap";
+import RoleSequence from "../ui/RoleSequence";
+import SystemField from "../ui/SystemField";
 import { ArrowDown, Mail } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Button from "../ui/Button";
-
-// ── Text Scramble Effect ────────────────────────────────────────
-// Randomly shuffles characters and gradually reveals the real text.
-// Used once on the hero name for a "coder personality" touch.
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
-
-function useTextScramble(finalText, duration = 1200, delay = 300) {
-  const [display, setDisplay] = useState("");
-  const [done, setDone] = useState(false);
-
-  useEffect(() => {
-    let frame;
-    const start = Date.now() + delay;
-    const len = finalText.length;
-
-    const tick = () => {
-      const now = Date.now();
-      if (now < start) {
-        // Still in delay period — show random chars at full length
-        setDisplay(
-          Array.from({ length: len }, () =>
-            CHARS[Math.floor(Math.random() * CHARS.length)]
-          ).join("")
-        );
-        frame = requestAnimationFrame(tick);
-        return;
-      }
-
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const revealed = Math.floor(progress * len);
-
-      const result = Array.from({ length: len }, (_, i) => {
-        if (i < revealed) return finalText[i];
-        return CHARS[Math.floor(Math.random() * CHARS.length)];
-      }).join("");
-
-      setDisplay(result);
-
-      if (progress < 1) {
-        frame = requestAnimationFrame(tick);
-      } else {
-        setDisplay(finalText);
-        setDone(true);
-      }
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [finalText, duration, delay]);
-
-  return { display, done };
-}
 
 // ── Framer Motion Variants ──────────────────────────────────────
 const container = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.3 },
+    transition: { staggerChildren: 0.09, delayChildren: 0.12 },
   },
 };
 
@@ -89,13 +31,14 @@ const fadeUp = {
 };
 
 export default function Hero() {
-  const { display: nameText, done: scrambleDone } = useTextScramble("AsadUllah", 1000, 400);
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden px-5"
+      className="hero-section journey-hero relative px-5"
     >
+      <AmbientLayer variant="hero" />
+      <SystemField />
       {/* ── Background Layers ────────────────────────────────── */}
       {/* Warm ambient blob — amber in light mode, faint lime in dark */}
       <div
@@ -112,67 +55,52 @@ export default function Hero() {
       {/* Noise texture overlay */}
       <div className="absolute inset-0 noise pointer-events-none" />
 
+      <div className="hero-stage">
       {/* ── Main Content ─────────────────────────────────────── */}
-      <motion.div
+      <Motion.div data-motion=""
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 max-w-3xl mx-auto text-center"
+        className="hero-identity relative z-10"
       >
         {/* Eyebrow label */}
-        <motion.p
+        <Motion.p data-motion=""
           variants={fadeUp}
           className="text-sm font-medium tracking-[0.2em] uppercase text-[var(--fg-muted)] mb-6"
         >
-          Frontend Developer &bull; React Specialist
-        </motion.p>
+          Full Stack AI Engineer
+        </Motion.p>
 
-        {/* Name with text scramble */}
-        <motion.h1
+        {/* Primary identity enters before supporting details */}
+        <Motion.h1 data-motion=""
           variants={fadeUp}
           className="font-display font-bold text-[var(--fg)] leading-[1.1] mb-4"
           style={{ fontSize: "clamp(2.8rem, 7vw, 5.5rem)" }}
         >
-          {/* Show scramble text during animation, real text after */}
-          <span className={scrambleDone ? "" : "font-mono"}>
-            {nameText}
-          </span>
-        </motion.h1>
+          AsadUllah
+        </Motion.h1>
 
         {/* Rotating role text — uses accent-text for WCAG readability in light mode */}
-        <motion.p
+        <Motion.p data-motion=""
           variants={fadeUp}
-          className="text-lg md:text-xl text-[var(--accent-text)] font-display font-semibold mb-6 h-8"
+          className="text-lg md:text-xl text-[var(--accent-text)] font-display font-semibold mb-6 min-h-8"
         >
-          <Typewriter
-            words={[
-              "Frontend Developer",
-              "React Specialist",
-              "UI Engineer",
-              "Aspiring AI Engineer",
-            ]}
-            loop={true}
-            cursor
-            cursorStyle="|"
-            typeSpeed={60}
-            deleteSpeed={40}
-            delaySpeed={2000}
-          />
-        </motion.p>
+          <RoleSequence />
+        </Motion.p>
 
         {/* Value proposition */}
-        <motion.p
+        <Motion.p data-motion=""
           variants={fadeUp}
-          className="text-base md:text-lg text-[var(--fg-muted)] max-w-xl mx-auto mb-10 leading-relaxed"
+          className="text-base md:text-lg text-[var(--fg-muted)] max-w-xl mb-10 leading-relaxed"
         >
-          I build modern, performant web experiences that turn visitors into users.
-          Specializing in React, Next.js & Tailwind CSS.
-        </motion.p>
+          I connect interfaces, data, and AI to build software for real workflows.
+          React, Next.js, Python, Django, and Node.js — from REST APIs to usable products.
+        </Motion.p>
 
         {/* CTA Buttons */}
-        <motion.div
+        <Motion.div data-motion=""
           variants={fadeUp}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-12"
+          className="flex flex-col sm:flex-row items-center hero-align gap-3 mb-12"
         >
           <Button
             href="/certificates/AsadUllah_Resume.pdf"
@@ -187,12 +115,12 @@ export default function Hero() {
           <Button href="#contact" variant="outline" size="lg" magnetic>
             Contact Me
           </Button>
-        </motion.div>
+        </Motion.div>
 
         {/* Social Icons */}
-        <motion.div
+        <Motion.div data-motion=""
           variants={fadeUp}
-          className="flex items-center justify-center gap-4"
+          className="flex items-center hero-align gap-4"
         >
           {[
             { icon: FaGithub, href: "https://github.com/AsadUllah-313", label: "GitHub" },
@@ -200,13 +128,13 @@ export default function Hero() {
             { icon: FaLinkedin, href: "https://linkedin.com/in/asad-ullah-410938367", label: "LinkedIn" },
             { icon: Mail, href: "mailto:engrasadqurashi@gmail.com", label: "Email" },
           ].map((s) => (
-            <motion.a
+            <Motion.a data-motion=""
               key={s.label}
               href={s.href}
               target={s.href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noopener noreferrer"
               aria-label={s.label}
-              whileHover={{ y: -3, scale: 1.1 }}
+              whileHover={{ y: -2 }}
               transition={{ duration: 0.2 }}
               className="
                 w-10 h-10 rounded-full flex items-center justify-center
@@ -216,17 +144,19 @@ export default function Hero() {
               "
             >
               <s.icon size={17} />
-            </motion.a>
+            </Motion.a>
           ))}
-        </motion.div>
-      </motion.div>
+        </Motion.div>
+      </Motion.div>
 
+      <div className="hero-system"><InteractiveEnvironment><SystemMap /></InteractiveEnvironment><a href="#skills" className="system-explore">Explore the engineering layers <span aria-hidden="true">↗</span></a></div>
+      </div>
       {/* ── Scroll Indicator ─────────────────────────────────── */}
-      <motion.div
+      <Motion.div data-motion=""
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        transition={{ delay: 0.8, duration: 0.6 }}
+        className="hero-scroll"
       >
         <a
           href="#about"
@@ -234,14 +164,11 @@ export default function Hero() {
           className="flex flex-col items-center gap-2 text-[var(--fg-muted)] hover:text-[var(--accent)] transition-colors"
         >
           <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          >
+          <Motion.div data-motion="" className="scroll-cue">
             <ArrowDown size={16} />
-          </motion.div>
+          </Motion.div>
         </a>
-      </motion.div>
+      </Motion.div>
     </section>
   );
 }

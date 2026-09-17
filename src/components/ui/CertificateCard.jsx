@@ -10,10 +10,10 @@
 //                (receives the cert object)
 // ═══════════════════════════════════════════════════════════════════
 
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import { Eye, Download, Award } from "lucide-react";
 
-export default function CertificateCard({ cert, onView }) {
+export default function CertificateCard({ cert, onView, index = 0, stream = false }) {
   // Robust path normalization helper
   const getCleanUrl = (file) => {
     if (!file) return "";
@@ -31,14 +31,15 @@ export default function CertificateCard({ cert, onView }) {
   const pdfUrl   = getCleanUrl(cert.pdfFile);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
+    <Motion.div data-motion=""
+      initial={stream ? false : { opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay: Math.min(index * 0.06, 0.18), ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -4 }}
+      data-primary={index === 0 || undefined}
       className="
-        flex-shrink-0 w-72 sm:w-80
+        credential-card snap-start flex-shrink-0 w-72 sm:w-80
         bg-[var(--card)] rounded-2xl overflow-hidden
         border border-[var(--border)] hover:border-[var(--accent)]/40
         transition-colors duration-300
@@ -47,25 +48,26 @@ export default function CertificateCard({ cert, onView }) {
     >
       {/* ── Certificate Preview Image ───────────────────────────── */}
       <div className="relative aspect-[4/3] bg-[var(--bg-subtle)] overflow-hidden">
-        <img
+        {imageUrl && <img
           src={imageUrl}
           alt={`${cert.title} certificate preview`}
           loading="lazy"
-          className="w-full h-full object-cover"
+          className="credential-image w-full h-full object-contain"
           onError={(e) => {
             // Fallback if image hasn't been added yet
             e.target.style.display = "none";
             e.target.nextSibling.style.display = "flex";
           }}
-        />
+        />}
         {/* Placeholder shown when image fails to load */}
         <div
           className="w-full h-full hidden items-center justify-center flex-col gap-3 bg-gradient-to-br from-[var(--bg-subtle)] to-[var(--border)]"
+          style={{ display: imageUrl ? undefined : "flex" }}
           aria-hidden="true"
         >
           <Award size={40} className="text-[var(--accent)]" />
           <span className="text-xs text-[var(--fg-muted)] font-medium text-center px-4">
-            Add image to public/certificates/
+            Certificate preview unavailable
           </span>
         </div>
 
@@ -80,7 +82,7 @@ export default function CertificateCard({ cert, onView }) {
       {/* ── Card Body ────────────────────────────────────────────── */}
       <div className="p-5">
         <p className="text-xs text-[var(--fg-muted)] mb-1">{cert.date}</p>
-        <h3 className="font-display text-base font-bold text-[var(--fg)] leading-snug mb-2 line-clamp-2">
+        <h3 className="font-display text-base font-bold text-[var(--fg)] leading-snug mb-2">
           {cert.title}
         </h3>
         {cert.description && (
@@ -94,6 +96,7 @@ export default function CertificateCard({ cert, onView }) {
           {/* View — opens full preview in modal */}
           <button
             onClick={() => onView(cert)}
+            aria-label={"View " + cert.title}
             className="
               flex-1 flex items-center justify-center gap-1.5
               px-3 py-2 rounded-lg text-sm font-medium
@@ -108,7 +111,7 @@ export default function CertificateCard({ cert, onView }) {
           </button>
 
           {/* Download — triggers file download */}
-          <a
+          {pdfUrl && <a
             href={pdfUrl}
             download={cert.pdfFile}
             aria-label={`Download ${cert.title} certificate`}
@@ -123,9 +126,9 @@ export default function CertificateCard({ cert, onView }) {
           >
             <Download size={14} />
             Download
-          </a>
+          </a>}
         </div>
       </div>
-    </motion.div>
+    </Motion.div>
   );
 }
